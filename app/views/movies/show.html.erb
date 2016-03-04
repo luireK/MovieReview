@@ -1,0 +1,62 @@
+<div class="row">
+	<div class="col-md-4">
+		<%= image_tag @movie.picture.url(:thumb), class: "movie-show" %>
+	</div>
+
+	<div class="col-md-8">
+		<div class="movie-info">
+			<h2 class="movie-title"><%= @movie.title %></h2>
+			<h3 class="movie-director"><span>감독: </span> <%= @movie.director %></h3>
+			<h4 class="avg-rating">평균 평점</h4>
+			<div class="average-review-rating" data-score=<%= @average_review %>></div>
+			<span class="number-of-reviews"><%= @movie.reviews.count %>개의 review</span>
+			<p class="movie-desc"><%= @movie.description %></p>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-lg-12">
+		<div class="reviews">
+		<!-- ratings will go-->
+			<h1>reviews</h1>
+			<%= render @movie.reviews %>
+
+
+			<div>
+				<%= link_to "리뷰등록", new_movie_review_path(@movie), class: "btn btn-custom" %>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="links btn-group">
+	<%= link_to "뒤로", root_path, class: "btn btn-custom" %> 
+
+	<% if user_signed_in? %>
+		<% if @movie.user_id == current_user.id %>
+			<%= link_to "수정", edit_movie_path(@movie), class: "btn btn-custom" %>
+			<%= link_to "삭제", movie_path(@movie), method: :delete, data: { confirm: "정말 삭제하시겠습니까?" }, class: "btn btn-custom" %>
+		<% end %>
+	<% end %>
+</div>
+
+<script>
+	$('.review-rating').raty({
+		readOnly: true,
+		score: function(){
+			return $(this).attr('data-score');
+		},
+		path: '/assets/'
+	});
+</script>
+
+<script>
+	$('.average-review-rating').raty({
+		readOnly: true,
+		score: function(){
+			return $(this).attr('data-score');
+		},
+		path: '/assets/'
+	});
+</script>

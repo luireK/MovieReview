@@ -1,0 +1,15 @@
+<h1 class="current-category"><%= params[:category] %></h1>
+
+<% if @movies.count == 0 %>
+	<h1>카테고리에 새로 추가된 영화가 없습니다.</h1>
+<% else %>
+	<div class="row">
+		<% @movies.each do |movie| %>
+			<div class="col-md-3">
+				<a href="/movies/<%= movie.id %>">
+					<%= image_tag movie.picture.url(:thumb), class: "movie" %>
+				</a>
+			</div>
+		<% end %>
+	</div>
+<% end %>
